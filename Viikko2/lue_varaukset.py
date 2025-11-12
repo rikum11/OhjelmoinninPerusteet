@@ -25,13 +25,28 @@ def main():
         varaus = f.read().strip()
 
     # Tulostetaan varaus konsoliin
-    print(varaus)
+    #print(varaus)
 
     # Kokeile näitä
-    print(varaus.split('|'))
-    #varausId = varaus.split('|')[0]
-    #print(varausId)
+    #print(varaus.split('|'))
+    varausId = varaus.split('|')
+    print(varausId)
     #print(type(varausId))
+
+    print(f"Varausnumero: {varausId[0]}")
+    print(f"Varaaja: {varausId[1]}")
+    paivamaara = varausId[2].split('-')
+    print(f"Päivämäärä: {paivamaara[2]}.{paivamaara[1]}.{paivamaara[0]}")
+    print(f"Aloitusaika: {varausId[3].replace(':', '.')}")
+    print(f"Tuntimäärä: {varausId[4]}")
+    print(f"Tuntihinta: {varausId[5]} €")
+    kokonaishinta = float(varausId[4]) * float(varausId[5])
+    print(f"Kokonaishinta: {kokonaishinta} €")
+    print(f"Maksettu: {'Kyllä' if varausId[6] == 'True' else 'Ei'}")
+    print(f"Kohde: {varausId[7]}")
+    print(f"Puhelin: {varausId[8]}")
+    print(f"Sähköposti: {varausId[9]}")
+
     """
     Edellisen olisi pitänyt tulostaa numeron 123, joka
     on oletuksena tekstiä.
