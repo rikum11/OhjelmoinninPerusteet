@@ -29,16 +29,16 @@ def muunna_varaustiedot(varaus: list) -> list:
     # Ensimmäisen alkion = varaus[0] muunnos
     muutettu_varaus.append(int(varaus[0]))
     # Ja tästä jatkuu
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
-    muutettu_varaus.append("")
+    muutettu_varaus.append(varaus[1])
+    muutettu_varaus.append(varaus[2])
+    muutettu_varaus.append(varaus[3])
+    muutettu_varaus.append(datetime.strptime(varaus[4], "%Y-%m-%d").date())
+    muutettu_varaus.append(datetime.strptime(varaus[5], "%H:%M").time())
+    muutettu_varaus.append(int(varaus[6]))
+    muutettu_varaus.append(float(varaus[7]))
+    muutettu_varaus.append(varaus[8] == "True")
+    muutettu_varaus.append(varaus[9])
+    muutettu_varaus.append(datetime.strptime(varaus[10], "%Y-%m-%d %H:%M:%S"))
     return muutettu_varaus
 
 def hae_varaukset(varaustiedosto: str) -> list:
@@ -65,6 +65,37 @@ def main():
         tietotyypit = [type(x).__name__ for x in varaus]
         print(" | ".join(tietotyypit))
         print("------------------------------------------------------------------------")
+    varausrivit = varaukset[1:]
+    print()
+    print("1) Vahvistetut varaukset")
+    for v in varausrivit:
+        if v[8] is True:
+            pvm = v[4].strftime("%d.%m.%Y")
+            klo = v[5].strftime("%H.%M")
+            print(f"- {v[1]}, {v[9]}, {pvm} klo {klo}")
+    print()
+    print("2) Pitkät varaukset (≥ 3 h)")
+    for v in varausrivit:
+        if v[6] >= 3:
+            pvm = v[4].strftime("%d.%m.%Y")
+            klo = v[5].strftime("%H.%M")
+            print(f"- {v[1]}, {pvm} klo {klo}, kesto {v[6]} h, {v[9]}")
+    print()
+    print("3) Varausten vahvistusstatus")
+    for v in varausrivit:
+        status = "Vahvistettu" if v[8] else "EI vahvistettu"
+        print(f"{v[1]} → {status}")
+    print()
+    print("4) Yhteenveto vahvistuksista")
+    vahvistetut = sum(1 for v in varausrivit if v[8])
+    ei_vahvistetut = len(varausrivit) - vahvistetut
+    print(f"- Vahvistettuja varauksia: {vahvistetut} kpl")
+    print(f"- Ei-vahvistettuja varauksia: {ei_vahvistetut} kpl")
+    print()
+    print("5) Vahvistettujen varausten kokonaistulot")
+    summa = sum(v[7] for v in varausrivit if v[8])
+    summa_str = f"{summa:.2f}".replace(".", ",")
+    print(f"Vahvistettujen varausten kokonaistulot: {summa_str} €")
 
 if __name__ == "__main__":
     main()
