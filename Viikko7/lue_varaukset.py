@@ -66,7 +66,6 @@ def varausten_kokonaistulot(varaukset: List[Varaus]):
     for varaus in varaukset:
         if varaus["vahvistettu"]:
             varausten_tulot += varaus["kesto"] * varaus["hinta"]
-
     print("Vahvistettujen varausten kokonaistulot:", f"{varausten_tulot:.2f}".replace('.', ','), "€")
     print()
 
