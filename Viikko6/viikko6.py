@@ -1,5 +1,6 @@
 # Copyright (c) 2025 Riku Martinmäki
 # License: MIT
+
 from datetime import datetime, date
 from typing import List, Dict
 import csv
